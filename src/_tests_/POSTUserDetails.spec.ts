@@ -40,7 +40,6 @@ describe("POST /api/signup", () => {
         fullName: "  John Doe  ",
         email: "JOHN@EXAMPLE.COM",
         password: "SecurePassword123",
-        createdDate: new Date().toISOString(),
         userType: "student" as UserType,
       };
 
@@ -60,14 +59,13 @@ describe("POST /api/signup", () => {
           "fullName",
           "email",
           "password",
-          "createdDate",
           "userType",
         ],
       },
       {
         description: "missing required fields",
         userData: { fullName: "John Doe", email: "john@example.com" },
-        expectedFields: ["password", "createdDate", "userType"],
+        expectedFields: ["password", "userType"],
       },
       {
         description: "empty string values",
@@ -75,14 +73,12 @@ describe("POST /api/signup", () => {
           fullName: "",
           email: "",
           password: "",
-          createdDate: "",
           userType: "",
         },
         expectedFields: [
           "fullName",
           "email",
           "password",
-          "createdDate",
           "userType",
         ],
       },
@@ -144,14 +140,13 @@ describe("POST /api/signup", () => {
         fullName: "A",
         email: "bad-email",
         password: "12",
-        createdDate: "not-a-date",
         userType: "wrong",
       };
 
       const response = await makeSignupRequest(invalidData);
       expectValidationError(response);
 
-      expect(response.body.details).toHaveLength(6);
+      expect(response.body.details).toHaveLength(5);
       expect(
         response.body.details.some((d: ValidationErrorDetail) =>
           d.message.includes("at least 2 characters")

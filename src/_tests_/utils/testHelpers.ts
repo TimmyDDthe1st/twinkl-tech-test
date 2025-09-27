@@ -6,7 +6,6 @@ export const validUser: CreateUserRequest = {
   fullName: "John Doe",
   email: "john.doe@example.com",
   password: "SecurePass123!",
-  createdDate: new Date().toISOString(),
   userType: "student",
 };
 

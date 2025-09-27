@@ -10,6 +10,7 @@ export class UserModel {
     const newUser: User = {
       id: this.nextId.toString(),
       ...userData,
+      createdDate: userData.createdDate || new Date().toISOString(),
     };
 
     this.users.push(newUser);
