@@ -13,8 +13,8 @@ export const signupSchema = Joi.object({
   }),
 
   email: Joi.string()
+    .trim()
     .email({ minDomainSegments: 2 })
-    .lowercase()
     .required()
     .messages({
       "string.empty": "Email is required",

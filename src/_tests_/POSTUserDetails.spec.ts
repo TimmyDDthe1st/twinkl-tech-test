@@ -35,10 +35,10 @@ describe("POST /api/signup", () => {
       }
     );
 
-    it("should sanitize and normalize valid data", async () => {
+    it("should trim whitespace from input data", async () => {
       const userData = {
         fullName: "  John Doe  ",
-        email: "JOHN@EXAMPLE.COM",
+        email: "  JOHN@EXAMPLE.COM  ",
         password: "SecurePassword123",
         userType: "student" as UserType,
       };
@@ -46,7 +46,7 @@ describe("POST /api/signup", () => {
       const response = await makeSignupRequest(userData);
       expect(response.status).toBe(201);
       expect(response.body.user.fullName).toBe("John Doe");
-      expect(response.body.user.email).toBe("john@example.com");
+      expect(response.body.user.email).toBe("JOHN@EXAMPLE.COM");
     });
   });
 
