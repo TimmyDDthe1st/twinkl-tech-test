@@ -3,7 +3,7 @@ export default {
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   testMatch: [
-    '**/_tests_/**/*.ts',
+    '**/_tests_/**/*.(test|spec).ts',
     '**/*.(test|spec).ts'
   ],
   transform: {

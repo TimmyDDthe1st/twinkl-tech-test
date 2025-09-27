@@ -1,42 +1,26 @@
 import { Request, Response } from "express";
-import { UserModel, CreateUserRequest } from "../models/User";
+import { UserModel } from "../models/User";
+import {
+  signupSchema,
+  formatValidationErrors,
+} from "../validation/userValidation";
 
 export class UserController {
   static async signup(req: Request, res: Response): Promise<void> {
     try {
-      const {
-        fullName,
-        email,
-        password,
-        createdDate,
-        userType,
-      }: CreateUserRequest = req.body;
+      const { error, value } = signupSchema.validate(req.body, {
+        abortEarly: false,
+        stripUnknown: true,
+      });
 
-      // Basic validation
-      if (!fullName || !email || !password || !createdDate || !userType) {
-        res.status(400).json({
-          error: "Missing required fields",
-          required: [
-            "fullName",
-            "email",
-            "password",
-            "createdDate",
-            "userType",
-          ],
-        });
+      if (error) {
+        const formattedErrors = formatValidationErrors(error);
+        res.status(400).json(formattedErrors);
         return;
       }
 
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        res.status(400).json({
-          error: "Invalid email format",
-        });
-        return;
-      }
+      const { fullName, email, password, userType } = value;
 
-      // Check if user already exists
       const existingUser = UserModel.findByEmail(email);
       if (existingUser) {
         res.status(409).json({
@@ -45,34 +29,14 @@ export class UserController {
         return;
       }
 
-      // Validate userType
-      const validUserTypes = ["student", "teacher", "admin"];
-      if (!validUserTypes.includes(userType)) {
-        res.status(400).json({
-          error: "Invalid user type",
-          validTypes: validUserTypes,
-        });
-        return;
-      }
-
-      // Validate password strength (basic example)
-      if (password.length < 6) {
-        res.status(400).json({
-          error: "Password must be at least 6 characters long",
-        });
-        return;
-      }
-
-      // Create user
       const newUser = UserModel.create({
         fullName,
         email,
         password,
-        createdDate,
+        createdDate: new Date().toISOString(),
         userType,
       });
 
-      // Return success response
       res.status(201).json({
         message: "User created successfully",
         user: newUser,
@@ -113,7 +77,6 @@ export class UserController {
         return;
       }
 
-      // Remove password from response
       const { password, ...userResponse } = user;
 
       res.status(200).json({

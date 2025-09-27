@@ -16,11 +16,11 @@ export default [
       '@typescript-eslint': typescriptEslint,
     },
     rules: {
-      // Include airbnb-base rules
+      Include airbnb-base rules
       ...airbnbBase.rules,
-      // Include airbnb-typescript/base rules
+      Include airbnb-typescript/base rules
       ...airbnbTypescriptBase.rules,
-      // custom rules...
+      custom rules...
     },
   },
 ];

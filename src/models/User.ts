@@ -1,31 +1,8 @@
-export interface User {
-  id?: string;
-  fullName: string;
-  email: string;
-  password: string;
-  createdDate: string;
-  userType: "student" | "teacher" | "admin";
-}
+import { User, CreateUserRequest, UserResponse } from '../types/user';
 
-export interface CreateUserRequest {
-  fullName: string;
-  email: string;
-  password: string;
-  createdDate: string;
-  userType: "student" | "teacher" | "admin";
-}
-
-export interface UserResponse {
-  id: string;
-  fullName: string;
-  email: string;
-  createdDate: string;
-  userType: "student" | "teacher" | "admin";
-  // Note: password is intentionally excluded from response
-}
+export { User, CreateUserRequest, UserResponse };
 
 export class UserModel {
-  // In a real app, this would be a database
   private static users: User[] = [];
   private static nextId = 1;
 
@@ -38,7 +15,6 @@ export class UserModel {
     this.users.push(newUser);
     this.nextId++;
 
-    // Return user without password
     const { password, ...userResponse } = newUser;
     return userResponse as UserResponse;
   }
@@ -55,7 +31,6 @@ export class UserModel {
     return this.users.map(({ password, ...user }) => user as UserResponse);
   }
 
-  // Method to clear users (useful for testing)
   static clear(): void {
     this.users = [];
     this.nextId = 1;
