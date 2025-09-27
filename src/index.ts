@@ -1,13 +1,18 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from "express";
+import userRoutes from "./routes/userRoutes";
 
 const app: Express = express();
-const port = process.env.PORT || 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+// Middleware
+app.use(express.json());
+
+// Health check route
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello World!");
 });
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+// API routes
+app.use("/api", userRoutes);
+
+// Export the app for testing
+export default app;
