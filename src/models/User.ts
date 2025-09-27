@@ -1,4 +1,4 @@
-import { User, CreateUserRequest, UserResponse } from '../types/user';
+import { User, CreateUserRequest, UserResponse } from "../types/user";
 
 export { User, CreateUserRequest, UserResponse };
 

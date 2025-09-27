@@ -1,5 +1,8 @@
 import Joi from "joi";
-import { ValidationErrorDetail, FormattedValidationError } from '../types/validation';
+import {
+  ValidationErrorDetail,
+  FormattedValidationError,
+} from "../types/validation";
 
 export const signupSchema = Joi.object({
   fullName: Joi.string().trim().min(2).max(100).required().messages({

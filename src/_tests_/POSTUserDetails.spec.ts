@@ -55,12 +55,7 @@ describe("POST /api/signup", () => {
       {
         description: "empty body",
         userData: {},
-        expectedFields: [
-          "fullName",
-          "email",
-          "password",
-          "userType",
-        ],
+        expectedFields: ["fullName", "email", "password", "userType"],
       },
       {
         description: "missing required fields",
@@ -75,12 +70,7 @@ describe("POST /api/signup", () => {
           password: "",
           userType: "",
         },
-        expectedFields: [
-          "fullName",
-          "email",
-          "password",
-          "userType",
-        ],
+        expectedFields: ["fullName", "email", "password", "userType"],
       },
       {
         description: "password too short",
